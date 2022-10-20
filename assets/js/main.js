@@ -20,9 +20,46 @@ const setCanvasBackground = () => {
     ctx.fillStyle = selectedColor; 
 }
 
+var widths = [0, 1002, 3840];
+
+function resizeFns() {
+    
+    if (window.innerWidth<widths[1]) {
+      
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            confirmButtonColor: 'red',
+            allowOutsideClick: false,
+            
+            confirmButtonText: 'Close',
+            text: 'Your Screen Size must be greator than 1002px to run the Visualizer',
+            footer: 'Please Try on a device whose width Greator than 1002px '
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.close()
+            }
+          })
+        
+
+        document.querySelector('.container').style.transform = 'scale(0)'
+
+
+    }else{
+
+        document.querySelector('.container').style.transform = 'scale(1)'
+  
+    }
+}
+window.onresize = resizeFns
+resizeFns();
+
 window.addEventListener("load", () => {
+        window.onload = resizeFns;
+
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
+
     setCanvasBackground();
 });
 
@@ -114,3 +151,4 @@ saveImg.addEventListener("click", () => {
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
 canvas.addEventListener("mouseup", () => isDrawing = false);
+
